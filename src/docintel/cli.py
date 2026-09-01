@@ -68,12 +68,18 @@ def ingest_run(
 
 @ingest_app.command("index")
 def ingest_index() -> None:
-    """Embed processed chunks and upsert them into the Chroma vector store."""
+    """Embed chunks into Chroma (dense) and build a BM25 index (sparse)."""
     from docintel.retrieval.indexer import run_indexing
+    from docintel.retrieval.sparse import build_bm25_index, save_bm25_index
 
     count = run_indexing()
-    console.print(f"[green]Indexed {count} chunks into Chroma.[/green]")
+    console.print(f"[green]Indexed {count} chunks into Chroma (dense).[/green]")
 
+    bm25_index = build_bm25_index()
+    save_bm25_index(bm25_index)
+    console.print(
+        f"[green]Built BM25 index with {len(bm25_index.chunk_ids)} chunks (sparse).[/green]"
+    )
 
 @eval_app.command("run")
 def eval_run(
