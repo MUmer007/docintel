@@ -65,6 +65,16 @@ def ingest_run(
     output_paths = run_pipeline(raw_dir=Path(source))
     console.print(f"[green]Processed {len(output_paths)} filing(s).[/green]")
 
+
+@ingest_app.command("index")
+def ingest_index() -> None:
+    """Embed processed chunks and upsert them into the Chroma vector store."""
+    from docintel.retrieval.indexer import run_indexing
+
+    count = run_indexing()
+    console.print(f"[green]Indexed {count} chunks into Chroma.[/green]")
+
+
 @eval_app.command("run")
 def eval_run(
     suite: str = typer.Option("regression", help="Which eval suite to run."),
