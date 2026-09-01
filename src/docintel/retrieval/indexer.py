@@ -33,12 +33,12 @@ def get_or_create_collection(client: chromadb.api.ClientAPI) -> chromadb.Collect
     embedding_fn = embedding_functions.SentenceTransformerEmbeddingFunction(
         model_name=settings.retrieval.embedding_model
     )
+        # chromadb's EmbeddingFunction stub accepts a broader input type (ndarray) than
+    # SentenceTransformerEmbeddingFunction's actual signature. This is a stub mismatch
+    # in chromadb, not a real type error; confirmed working correctly at runtime.
     collection: chromadb.Collection = client.get_or_create_collection(
         name=settings.retrieval.collection_name,
-        embedding_function=embedding_fn,  # type: ignore[arg-type]  # chromadb's stub signature for
-        # EmbeddingFunction is broader (accepts ndarray input) than SentenceTransformerEmbeddingFunction's
-        # actual signature; this is a stub mismatch in chromadb, not a real type error -- confirmed
-        # working at runtime.
+        embedding_function=embedding_fn,  # type: ignore[arg-type]
         metadata={"hnsw:space": "cosine"},
     )
     return collection
