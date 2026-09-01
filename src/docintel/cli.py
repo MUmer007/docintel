@@ -57,9 +57,13 @@ def serve() -> None:
 def ingest_run(
     source: str = typer.Option("data/raw", help="Directory of source documents."),
 ) -> None:
-    """Run the ingestion pipeline: parse -> chunk -> embed -> upsert into Chroma."""
-    console.print(f"[yellow]Ingestion pipeline not yet implemented. Source: {source}[/yellow]")
+    """Parse and chunk all filings in `source`, saving results to data/processed/."""
+    from pathlib import Path
 
+    from docintel.ingestion.pipeline import run_pipeline
+
+    output_paths = run_pipeline(raw_dir=Path(source))
+    console.print(f"[green]Processed {len(output_paths)} filing(s).[/green]")
 
 @eval_app.command("run")
 def eval_run(
