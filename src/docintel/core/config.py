@@ -19,7 +19,7 @@ PROJECT_ROOT = Path(__file__).resolve().parents[3]
 
 
 class LLMSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix="LLM_", extra="ignore")
+    model_config = SettingsConfigDict(env_prefix="LLM_", env_file=".env", extra="ignore")
 
     groq_api_key: str = Field(default="", description="Primary generation provider")
     groq_model: str = Field(default="llama-3.3-70b-versatile")
