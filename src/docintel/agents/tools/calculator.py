@@ -35,11 +35,7 @@ CALCULATOR_TOOL_SCHEMA = {
     "type": "function",
     "function": {
         "name": "calculate",
-        "description": (
-            "Evaluate a numeric arithmetic expression. Use this for any math "
-            "(percentages, growth rates, sums, ratios) instead of computing by hand, "
-            "since LLMs are unreliable at exact arithmetic."
-        ),
+        "description": "Evaluate a numeric arithmetic expression (percentages, growth, sums).",
         "parameters": {
             "type": "object",
             "properties": {

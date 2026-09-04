@@ -115,12 +115,7 @@ SQL_TOOL_SCHEMA = {
     "function": {
         "name": "run_sql_query",
         "description": (
-            "Run a read-only SQL query against structured financial tables extracted from "
-            "SEC filings. Use this for precise numeric lookups (specific line items, exact "
-            "figures) rather than the retrieval tool, which returns prose and can be "
-            "imprecise for exact numbers. Call list_available_tables first to see what "
-            "tables and columns exist -- table and column names are auto-generated from "
-            "messy source HTML and are not predictable without inspecting them first."
+            "Run a read-only SQL query for precise figures; call list_available_tables first."
         ),
         "parameters": {
             "type": "object",
@@ -139,11 +134,7 @@ LIST_TABLES_TOOL_SCHEMA = {
     "type": "function",
     "function": {
         "name": "list_available_tables",
-        "description": (
-            "List all structured tables available for SQL querying, with their source "
-            "ticker, filing date, and table name. Call this before run_sql_query to "
-            "discover what data exists and what the exact table name is."
-        ),
+        "description": "List available SQL tables (name, ticker, filing_date) before querying.",
         "parameters": {"type": "object", "properties": {}},
     },
 }        

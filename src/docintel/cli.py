@@ -52,6 +52,19 @@ def ask(question: str) -> None:
         console.print(f"[dim]Citations: {', '.join(response.citations)}[/dim]")
     if response.insufficient_context:
         console.print("[yellow]Note: model flagged this as insufficient context.[/yellow]")
+@app.command()
+def agent(question: str) -> None:
+    """Ask a question using the full agent (search + SQL + calculator tools)."""
+    from docintel.agents.orchestrator import run_agent
+
+    response = run_agent(question)
+    console.print(f"\n[bold]Answer:[/bold] {response.answer}\n")
+    if response.steps:
+        console.print(f"[dim]Tool calls made: {len(response.steps)}[/dim]")
+        for i, step in enumerate(response.steps, 1):
+            console.print(f"[dim]  {i}. {step.tool_name}({step.tool_args})[/dim]")
+    if response.hit_max_steps:
+        console.print("[yellow]Note: hit max tool-use steps without a final answer.[/yellow]")
 
 
 @app.command()
@@ -110,6 +123,8 @@ def eval_run(
 ) -> None:
     """Run the eval harness against the gold dataset."""
     console.print(f"[yellow]Eval suite '{suite}' not yet implemented.[/yellow]")
+
+
 
 
 if __name__ == "__main__":
