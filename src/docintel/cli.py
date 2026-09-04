@@ -3,7 +3,9 @@ Single CLI entrypoint for the whole project.
 
 Usage (after `uv sync`):
     uv run docintel info
+    uv run docintel ask "question"
     uv run docintel ingest run --source data/raw
+    uv run docintel ingest index
     uv run docintel serve
 """
 
@@ -37,6 +39,19 @@ def info() -> None:
     console.print(
         f"[bold]ANTHROPIC_API_KEY set:[/bold] {'yes' if has_anthropic else 'NO -- set it in .env'}"
     )
+
+
+@app.command()
+def ask(question: str) -> None:
+    """Ask a question against the indexed filings and get a cited answer."""
+    from docintel.generation.rag import answer_question
+
+    response = answer_question(question)
+    console.print(f"\n[bold]Answer:[/bold] {response.answer}\n")
+    if response.citations:
+        console.print(f"[dim]Citations: {', '.join(response.citations)}[/dim]")
+    if response.insufficient_context:
+        console.print("[yellow]Note: model flagged this as insufficient context.[/yellow]")
 
 
 @app.command()
@@ -81,6 +96,7 @@ def ingest_index() -> None:
         f"[green]Built BM25 index with {len(bm25_index.chunk_ids)} chunks (sparse).[/green]"
     )
 
+
 @eval_app.command("run")
 def eval_run(
     suite: str = typer.Option("regression", help="Which eval suite to run."),
@@ -91,4 +107,3 @@ def eval_run(
 
 if __name__ == "__main__":
     app()
-    
