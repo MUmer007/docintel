@@ -83,7 +83,8 @@ def ingest_run(
 
 @ingest_app.command("index")
 def ingest_index() -> None:
-    """Embed chunks into Chroma (dense) and build a BM25 index (sparse)."""
+    """Embed chunks (dense), build BM25 (sparse), and load tables into DuckDB (structured)."""
+    from docintel.agents.tools.sql_store import build_sql_store
     from docintel.retrieval.indexer import run_indexing
     from docintel.retrieval.sparse import build_bm25_index, save_bm25_index
 
@@ -94,6 +95,12 @@ def ingest_index() -> None:
     save_bm25_index(bm25_index)
     console.print(
         f"[green]Built BM25 index with {len(bm25_index.chunk_ids)} chunks (sparse).[/green]"
+    )
+
+    sql_summary = build_sql_store()
+    console.print(
+        f"[green]Loaded {sql_summary['loaded']} tables into DuckDB "
+        f"({sql_summary['skipped']} skipped as not SQL-worthy).[/green]"
     )
 
 

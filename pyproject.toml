@@ -37,6 +37,7 @@ dependencies = [
     "python-dotenv>=1.0.1",
     "typer>=0.13.0",              # CLI for scripts (ingest, eval, serve)
     "rich>=13.9.0",
+    "pandas>=3.0.5",
 ]
 
 [dependency-groups]
