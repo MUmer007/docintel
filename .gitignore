@@ -36,3 +36,7 @@ coverage.xml
 
 # Notebooks checkpoints
 .ipynb_checkpoints/
+
+# Eval run outputs are generated artifacts (timestamped, accumulate over time) --
+# but the gold dataset itself (gold_qa.json) IS tracked, since it's real project input.
+data/eval_datasets/results_*.json

@@ -15,7 +15,7 @@ from __future__ import annotations
 
 import json
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, ConfigDict, Field
 
 from docintel.generation.llm_client import complete
 from docintel.retrieval.fusion import RetrievedChunk, hybrid_search
@@ -37,13 +37,12 @@ do NOT guess or fill gaps with outside knowledge.
 
 
 class RAGResponse(BaseModel):
+    model_config = ConfigDict(arbitrary_types_allowed=True)
+
     answer: str
     citations: list[str] = Field(default_factory=list)
     insufficient_context: bool = False
     retrieved_chunks: list[RetrievedChunk] = Field(default_factory=list, exclude=True)
-
-    class Config:
-        arbitrary_types_allowed = True
 
 
 def _build_context_block(chunks: list[RetrievedChunk]) -> str:

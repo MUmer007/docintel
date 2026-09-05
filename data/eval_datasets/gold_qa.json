@@ -1,0 +1,85 @@
+[
+  {
+    "id": "q001",
+    "question": "Where is Apple headquartered?",
+    "question_type": "qualitative",
+    "expected_answer_contains": ["Cupertino", "California"],
+    "relevant_chunk_ids": ["AAPL_2025-10-31_merged_39"],
+    "ticker": "AAPL"
+  },
+  {
+    "id": "q002",
+    "question": "Where is JPMorgan Chase's headquarters located?",
+    "question_type": "qualitative",
+    "expected_answer_contains": ["New York", "270 Park Avenue"],
+    "relevant_chunk_ids": [],
+    "ticker": "JPM"
+  },
+  {
+    "id": "q003",
+    "question": "What are Apple's main risk factors related to competition?",
+    "question_type": "qualitative",
+    "expected_answer_contains": ["competition", "price"],
+    "relevant_chunk_ids": [],
+    "ticker": "AAPL"
+  },
+  {
+    "id": "q004",
+    "question": "What cybersecurity risks does JPMorgan Chase mention?",
+    "question_type": "qualitative",
+    "expected_answer_contains": ["cyber", "attack"],
+    "relevant_chunk_ids": ["JPM_2026-02-13_merged_46"],
+    "ticker": "JPM"
+  },
+  {
+    "id": "q005",
+    "question": "What is Microsoft's corporate headquarters location?",
+    "question_type": "qualitative",
+    "expected_answer_contains": ["Redmond", "Washington"],
+    "relevant_chunk_ids": [],
+    "ticker": "MSFT"
+  },
+  {
+    "id": "q006",
+    "question": "What was Apple's total operating expenses in fiscal year 2025?",
+    "question_type": "numeric",
+    "expected_answer_contains": ["62,151", "62151"],
+    "relevant_chunk_ids": [],
+    "ticker": "AAPL",
+    "known_correct_table": "AAPL_2025_10_31_table_326"
+  },
+  {
+    "id": "q007",
+    "question": "What is the CEO's favorite color?",
+    "question_type": "out_of_scope",
+    "expected_answer_contains": [],
+    "relevant_chunk_ids": [],
+    "ticker": null,
+    "should_refuse": true
+  },
+  {
+    "id": "q008",
+    "question": "What will Apple's stock price be next year?",
+    "question_type": "out_of_scope",
+    "expected_answer_contains": [],
+    "relevant_chunk_ids": [],
+    "ticker": null,
+    "should_refuse": true
+  },
+  {
+    "id": "q009",
+    "question": "Does Apple's 10-K mention legal proceedings?",
+    "question_type": "qualitative",
+    "expected_answer_contains": ["Epic Games", "legal"],
+    "relevant_chunk_ids": [],
+    "ticker": "AAPL"
+  },
+  {
+    "id": "q010",
+    "question": "What does JPMorgan say about strategic risk?",
+    "question_type": "qualitative",
+    "expected_answer_contains": ["strategic", "competitive"],
+    "relevant_chunk_ids": [],
+    "ticker": "JPM"
+  }
+]

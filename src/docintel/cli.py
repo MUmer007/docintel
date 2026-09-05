@@ -122,7 +122,29 @@ def eval_run(
     suite: str = typer.Option("regression", help="Which eval suite to run."),
 ) -> None:
     """Run the eval harness against the gold dataset."""
-    console.print(f"[yellow]Eval suite '{suite}' not yet implemented.[/yellow]")
+    from datetime import datetime
+    from pathlib import Path
+
+    from docintel.evals.runner import run_eval_suite, save_results, summarize_results
+
+    console.print(f"[bold]Running eval suite: {suite}[/bold]\n")
+    results = run_eval_suite()
+    summary = summarize_results(results)
+
+    for r in results:
+        status = "[green]OK[/green]"
+        if r.contains_expected_terms is False or r.correctly_refused is False:
+            status = "[red]FAIL[/red]"
+        console.print(f"{status} [{r.question_id}] {r.question}")
+
+    console.print("\n[bold]Summary:[/bold]")
+    for k, v in summary.items():
+        console.print(f"  {k}: {v}")
+
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    output_path = Path("data/eval_datasets") / f"results_{timestamp}.json"
+    save_results(results, summary, output_path)
+    console.print(f"\n[dim]Results saved to {output_path}[/dim]")
 
 
 

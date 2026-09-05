@@ -22,9 +22,22 @@ class LLMSettings(BaseSettings):
     model_config = SettingsConfigDict(env_prefix="LLM_", env_file=".env", extra="ignore")
 
     groq_api_key: str = Field(default="", description="Primary generation provider")
-    groq_model: str = Field(default="llama-3.3-70b-versatile")
-    anthropic_api_key: str = Field(default="", description="Used for independent LLM-as-judge")
-    judge_model: str = Field(default="claude-sonnet-4-6")
+    groq_model: str = Field(default="openai/gpt-oss-120b")
+    anthropic_api_key: str = Field(default="", description="Optional: enables Claude as judge")
+    anthropic_workspace_id: str = Field(
+        default="",
+        description="Required if the Anthropic API key is org-scoped, not workspace-scoped",
+    )
+    judge_model: str = Field(
+        default="qwen/qwen3.8-27b",
+        description=(
+            "Model used for LLM-as-judge scoring. Defaults to a Groq model different from "
+            "the generator (see llm.groq_model) to partially mitigate self-preference bias -- "
+            "using Claude via anthropic_api_key is preferred when billing is available, since "
+            "a different provider/lab is a stronger independence guarantee than a different "
+            "model on the same provider."
+        ),
+    )
     openai_api_key: str = Field(default="", description="Optional fallback / embeddings")
 
     request_timeout_s: float = 30.0
@@ -32,7 +45,7 @@ class LLMSettings(BaseSettings):
 
 
 class RetrievalSettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix="RETRIEVAL_", extra="ignore")
+    model_config = SettingsConfigDict(env_prefix="RETRIEVAL_", env_file=".env", extra="ignore")
 
     chroma_persist_dir: Path = PROJECT_ROOT / "data" / "chroma"
     collection_name: str = "docintel_chunks"
@@ -47,7 +60,7 @@ class RetrievalSettings(BaseSettings):
 
 
 class ObservabilitySettings(BaseSettings):
-    model_config = SettingsConfigDict(env_prefix="OTEL_", extra="ignore")
+    model_config = SettingsConfigDict(env_prefix="OTEL_", env_file=".env", extra="ignore")
 
     service_name: str = "docintel"
     otlp_endpoint: str = ""  # empty = log spans locally instead of exporting
